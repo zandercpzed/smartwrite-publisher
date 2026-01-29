@@ -127,15 +127,15 @@ export class MarkdownConverter {
 		// Converte strikethrough
 		html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
 
+		// Converte imagens ![alt](url) - ANTES de links para evitar conflito
+		html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" />');
+
 		// Converte links externos [text](url)
 		html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
 
 		// Converte wiki links [[note]] -> texto simples (sem link)
 		html = html.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$2'); // [[note|alias]] -> alias
 		html = html.replace(/\[\[([^\]]+)\]\]/g, '$1'); // [[note]] -> note
-
-		// Converte imagens ![alt](url)
-		html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" />');
 
 		// Converte callouts do Obsidian para blockquotes (deve vir antes de blockquotes genéricos)
 		html = this.convertCallouts(html);
