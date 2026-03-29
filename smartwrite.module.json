@@ -1,0 +1,9 @@
+{
+	"id": "smartwrite-publisher",
+	"displayName": "Publisher",
+	"version": "0.1.0",
+	"panelComponent": "PublisherPanel",
+	"requiresAuth": ["substack", "wordpress"],
+	"requiresLicense": false,
+	"minOrchestratorVersion": "0.1.0"
+}

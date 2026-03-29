@@ -1,0 +1,19 @@
+# Arquivos gerados pelo build
+main.js
+main.js.map
+
+# Dependências
+node_modules/
+
+# macOS
+.DS_Store
+
+# Obsidian vault (se estiver testando localmente)
+.obsidian/
+
+# Logs
+*.log
+
+# Env local
+.env
+.env.local

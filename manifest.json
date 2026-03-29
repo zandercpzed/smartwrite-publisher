@@ -1,0 +1,11 @@
+{
+	"id": "smartwrite-publisher",
+	"name": "SmartWrite Publisher",
+	"version": "0.1.0",
+	"minAppVersion": "1.4.0",
+	"description": "Publish Obsidian notes to Substack and WordPress directly from your vault, managed by SmartWrite Orchestrator.",
+	"author": "Zander Catta Preta",
+	"authorUrl": "https://github.com/zandercpzed",
+	"fundingUrl": "https://github.com/zandercpzed",
+	"isDesktopOnly": true
+}

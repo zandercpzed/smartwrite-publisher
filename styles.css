@@ -1,0 +1,145 @@
+/* SmartWrite Publisher — styles.css
+ * Estilos do painel Publisher na sidebar do Orchestrator.
+ * Usa variáveis CSS do Obsidian para compatibilidade com temas.
+ */
+
+/* ── Publisher Panel ──────────────────────────────────────────── */
+.sw-publisher {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px 0;
+}
+
+/* ── Note Preview Card ────────────────────────────────────────── */
+.sw-publisher-note-card {
+  padding: 10px 12px;
+  border-radius: var(--radius-m);
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+}
+
+.sw-publisher-note-card h4 {
+  margin: 0 0 4px 0;
+  font-size: var(--font-ui-medium);
+  color: var(--text-normal);
+}
+
+.sw-publisher-note-meta {
+  font-size: var(--font-ui-small);
+  color: var(--text-muted);
+}
+
+/* ── Platform Section ─────────────────────────────────────────── */
+.sw-publisher-platform {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sw-publisher-platform-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-ui-small);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Connection Status ────────────────────────────────────────── */
+.sw-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sw-status-dot.connected {
+  background: var(--color-green);
+}
+
+.sw-status-dot.disconnected {
+  background: var(--color-red);
+}
+
+.sw-status-dot.loading {
+  background: var(--color-yellow);
+}
+
+/* ── Action Buttons ───────────────────────────────────────────── */
+.sw-publisher-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.sw-btn {
+  flex: 1;
+  padding: 8px 14px;
+  border-radius: var(--radius-s);
+  font-size: var(--font-ui-small);
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.sw-btn:hover { opacity: 0.85; }
+.sw-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.sw-btn-primary {
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+
+.sw-btn-secondary {
+  background: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+/* ── Auth Setup ───────────────────────────────────────────────── */
+.sw-publisher-auth-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+}
+
+.sw-publisher-auth-prompt svg {
+  opacity: 0.4;
+}
+
+/* ── Publish Progress ─────────────────────────────────────────── */
+.sw-publisher-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sw-publisher-progress-label {
+  font-size: var(--font-ui-small);
+  color: var(--text-muted);
+}
+
+.sw-publisher-progress-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--background-modifier-border);
+  overflow: hidden;
+}
+
+.sw-publisher-progress-fill {
+  height: 100%;
+  background: var(--interactive-accent);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
