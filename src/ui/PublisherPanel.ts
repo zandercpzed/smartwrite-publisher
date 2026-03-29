@@ -7,12 +7,16 @@
 import { ItemView, WorkspaceLeaf, TFile, setIcon } from "obsidian";
 import type SmartWritePublisher from "../main";
 import type { PostMeta } from "../types";
+import { SubstackAdapter } from "../substack/SubstackAdapter";
+import { WordPressAdapter } from "../wordpress/WordPressAdapter";
 
 export const PUBLISHER_VIEW_TYPE = "smartwrite-publisher";
 
 export class PublisherPanel extends ItemView {
 	private plugin: SmartWritePublisher;
 	private activeFile: TFile | null = null;
+	private readonly substack = new SubstackAdapter();
+	private readonly wordpress = new WordPressAdapter();
 
 	constructor(leaf: WorkspaceLeaf, plugin: SmartWritePublisher) {
 		super(leaf);
@@ -28,6 +32,7 @@ export class PublisherPanel extends ItemView {
 
 	async onOpen() {
 		this.activeFile = this.app.workspace.getActiveFile();
+		this.configureAdapters();
 		this.render();
 	}
 
@@ -139,14 +144,39 @@ export class PublisherPanel extends ItemView {
 	}
 
 	private isPlatformConfigured(platformId: string): boolean {
-		const s = this.plugin.settings;
-		if (platformId === "substack") return !!s.substackCookie && !!s.substackUrl;
-		if (platformId === "wordpress") return !!s.wordpressUrl && !!s.wordpressUsername;
+		if (platformId === "substack") return this.substack.isConfigured();
+		if (platformId === "wordpress") return this.wordpress.isConfigured();
 		return false;
 	}
 
 	private async handlePublish(meta: PostMeta, asDraft: boolean) {
-		// TODO: Fase 2 — chamar SubstackAdapter / WordPressAdapter
-		console.debug(`[SmartWrite Publisher] Publicar: ${meta.title} (rascunho: ${asDraft})`);
+		this.configureAdapters();
+		const file = this.activeFile;
+		if (!file) return;
+
+		const content = await this.app.vault.read(file);
+		// TODO: Implementar converter Markdown→HTML (Fase seguinte)
+		const htmlContent = `<p>${content}</p>`;
+
+		if (this.substack.isConfigured()) {
+			await this.substack.testConnection();
+			const result = await this.substack.publish(meta.title, htmlContent, meta, asDraft);
+			console.debug(`[SmartWrite Publisher] Substack: ${result.success ? result.url : result.error}`);
+		}
+		if (this.wordpress.isConfigured()) {
+			const result = await this.wordpress.publish(meta.title, htmlContent, meta, asDraft);
+			console.debug(`[SmartWrite Publisher] WordPress: ${result.success ? result.url : result.error}`);
+		}
+		this.render();
+	}
+
+	private configureAdapters(): void {
+		const s = this.plugin.settings;
+		if (s.substackCookie && s.substackUrl) {
+			this.substack.configure(s.substackCookie, s.substackUrl);
+		}
+		if (s.wordpressUrl && s.wordpressUsername && s.wordpressAppPassword) {
+			this.wordpress.configure(s.wordpressUrl, s.wordpressUsername, s.wordpressAppPassword);
+		}
 	}
 }
